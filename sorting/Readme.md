@@ -1,3 +1,14 @@
+# Sorting Algorithms
+
+
+# Insertion Sort
+
+How insertion sort works
+
+![Insertion Sort Animation](images/insertion-sort.gif)
+
+## Insertion Sort Code
+```
 # include<iostream>
 using namespace std;
 
@@ -39,3 +50,4 @@ int main()
 
     return 0;
 }
+```
