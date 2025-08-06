@@ -50,7 +50,7 @@ void MergeSort(int A[], int p, int r)
 
 int main()
 {
-    int A[] = {154, 77, 2, 5, 8, 12, 4, 7, 9, 15};
+    int A[] = {154, 77, 2, 5, 8, 12, 4, 7, 9, 15, 14};
     int size = sizeof(A) / sizeof(A[0]);
 
     MergeSort(A, 0, size - 1);
