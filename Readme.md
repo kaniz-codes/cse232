@@ -30,3 +30,9 @@ It is organized by topic and includes both theoretical concepts and practical co
 We are following the textbook
 -  **[Introduction to Algorithms](https://iitdh.ac.in/~konjengbam.anand/courses/daa/CLRS4e2022.pdf)**  
 by *Thomas H. Cormen, Charles E. Leiserson, Ronald L. Rivest, and Clifford Stein (CLRS)*
+
+## Join to grow
+
+This repository is just the begainning. Help to make it resourceful by contributing to it.
+
+All contributions are welcome!!
