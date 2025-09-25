@@ -59,8 +59,8 @@ The **Greedy Algorithm** is the **best and optimal solution** for the standard A
 - It gives the correct answer due to the problem's **structure**
 - There’s no benefit in using slower methods like DP here
 
->[!Importent]
->When Greedy Fails?
+> [!IMPORTANT]
+> When Greedy Fails?
 > - Activities have **weights or profits** (e.g. maximize total profit)
 > - You need to minimize **idle time**, not just maximize count
 > - You want to minimize the **number of resources/rooms**
