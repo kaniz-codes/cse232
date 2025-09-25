@@ -23,7 +23,11 @@ Convert the input array into a `Max Heap` (largest element at the root).
 - Repeat until all elements are sorted.  
 
 ## Here is it step by step
+<<<<<<< HEAD
 ![Heap Sort](heap-sort-simulation.jpg)
+=======
+![Heap Sort](heap-sort.jpg)
+>>>>>>> 8d57da36db2ce69d45c0841519c50e20160957fe
 
 ## Time & Space Complexity
 
