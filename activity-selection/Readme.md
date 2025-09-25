@@ -67,7 +67,7 @@ The **Greedy Algorithm** is the **best and optimal solution** for the standard A
 
 ## Resources
 
-Here are some of the sources I used to learn:
+Here are some of the sources I found useful while researching:
 
 - [tutorialspoint](https://www.tutorialspoint.com/activity-selection-problem) 
 
