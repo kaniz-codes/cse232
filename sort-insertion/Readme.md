@@ -6,7 +6,7 @@
    - [Example](#for-example)
    - [Simulation](#insertion-sort-simulation)
    - [Code](#insertion-sort-code)
-   - [Time Complexity](#⏱-time-complexity)
+   - [Time Complexity](#time-complexity)
 
 ### How insertion sort works
 - Start from the `second element` (index 1).

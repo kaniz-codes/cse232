@@ -4,8 +4,6 @@ This repository serves as a collection of **notes**, **code implementations**, *
 
 It is organized by topic and includes both theoretical concepts and practical code.
 
-
-
 ## Topics Covered (Mid-Term)
 
 ### Sorting Algorithms
@@ -25,7 +23,7 @@ It is organized by topic and includes both theoretical concepts and practical co
 - [Huffman Coding](./huffman-coding/)
 - [Activity Selection Problem](./activity-selection/)
 
-## 📚 Reference Book
+## Reference Book
 
 We are following the textbook
 -  **[Introduction to Algorithms](https://iitdh.ac.in/~konjengbam.anand/courses/daa/CLRS4e2022.pdf)**  
