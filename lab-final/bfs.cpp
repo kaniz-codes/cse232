@@ -1,67 +1,83 @@
-#include <iostream>
-#include <vector>
-#include <queue>
+#include <bits/stdc++.h>
 using namespace std;
 
-// BFS function
-void BFS(vector<vector<int>> &graph, int start) {
-    int n = graph.size();
+#define MAX 100
+#define WHITE 0
+#define GRAY 1
+#define BLACK 2
 
-    // distance array
-    vector<int> dist(n, -1);
+int color[MAX];    // stores WHITE/GRAY/BLACK
+int d[MAX];        // distance array
+int pi[MAX];       // parent array
+int Adj[MAX][MAX]; // adjacency matrix
+int n;             // number of vertices
 
-    queue<int> q;
-
-    dist[start] = 0;    // distance to itself = 0
-    q.push(start);
-
-    while (!q.empty()) {
-        int u = q.front();
-        q.pop();
-
-        // visit all neighbors
-        for (int v : graph[u]) {
-            if (dist[v] == -1) {  // not visited yet
-                dist[v] = dist[u] + 1;
-                q.push(v);
-            }
-        }
+void BFS(int s)
+{
+    for (int u = 0; u < n; u++)
+    {
+        color[u] = WHITE;
+        d[u] = INT_MAX;
+        pi[u] = -1;
     }
 
-    // print distances
-    cout << "Node : Distance from start\n";
-    for (int i = 0; i < n; i++) {
-        cout << i << " : " << dist[i] << endl;
+    color[s] = GRAY;
+    d[s] = 0;
+    pi[s] = -1;
+
+    queue<int> Q;
+    Q.push(s);
+
+    while (!Q.empty())
+    {
+        int u = Q.front();
+        Q.pop();
+
+        for (int v = 0; v < n; v++)
+        {
+            if (Adj[u][v] == 1 && color[v] == WHITE)
+            {
+                color[v] = GRAY;
+                d[v] = d[u] + 1;
+                pi[v] = u;
+                Q.push(v);
+            }
+        }
+        color[u] = BLACK;
+    }
+
+    cout << "\nVertex : Distance from source\n";
+    for (int i = 0; i < n; i++)
+    {
+        if (d[i] == INT_MAX)
+            cout << i << " : " << -1 << endl;
+        else
+            cout << i << " : " << d[i] << endl;
     }
 }
 
-int main() {
-    int n = 6;  // number of nodes
+int main()
+{
+    int e;
+    cout << "Enter number of vertices and edges: ";
+    cin >> n >> e;
 
-    // Create graph with 6 nodes
-    vector<vector<int>> graph(n);
+    for (int i = 0; i < n; i++)
+        for (int j = 0; j < n; j++)
+            Adj[i][j] = 0;
 
-    // Add edges (undirected)
-    graph[0].push_back(1);
-    graph[0].push_back(3);
+    cout << "Enter edges (u v):\n";
+    for (int i = 0; i < e; i++)
+    {
+        int u, v;
+        cin >> u >> v;
+        Adj[u][v] = 1;
+        Adj[v][u] = 1; // for undirected
+    }
 
-    graph[1].push_back(0);
-    graph[1].push_back(4);
+    int s;
+    cout << "Enter source vertex: ";
+    cin >> s;
 
-    graph[2].push_back(4);
-    graph[2].push_back(5);
-
-    graph[3].push_back(0);
-
-    graph[4].push_back(1);
-    graph[4].push_back(2);
-    graph[4].push_back(5);
-
-    graph[5].push_back(2);
-    graph[5].push_back(4);
-
-    // Run BFS starting from node 0
-    BFS(graph, 0);
-
-    return 0;
+    BFS(s);
 }

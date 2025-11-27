@@ -23,6 +23,17 @@ It is organized by topic and includes both theoretical concepts and practical co
 - [Huffman Coding](./huffman-coding/)
 - [Activity Selection Problem](./activity-selection/)
 
+## Topics Covered (Final)
+
+1. BFS ✔️
+2. DFS ✔️
+3. Floyd–Warshall ✔️
+4. Prim’s ✔️
+5. Kruskal’s ✔️
+6. Bellman–Ford ✔️
+7. Dijkstra’s ✔️
+
+
 We are following the textbook
 -  **[Introduction to Algorithms](https://iitdh.ac.in/~konjengbam.anand/courses/daa/CLRS4e2022.pdf)**  
 by *Thomas H. Cormen, Charles E. Leiserson, Ronald L. Rivest, and Clifford Stein (CLRS)*

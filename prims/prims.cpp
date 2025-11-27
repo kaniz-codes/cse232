@@ -1,72 +1,91 @@
-#include <stdio.h>
-#include <limits.h>
+#include <iostream>
+#include <climits> // For INT_MAX
+using namespace std;
 
-int V;
-int graph[100][100];
+#define V 4 // Number of vertices
 
-int minkey(int key[],bool mst[])
+// Function to find the vertex with minimum key value
+int minKey(int key[], bool explore[])
 {
- 	int min=INT_MAX,min_index;
- 	for(int v=0;v<V;v++)
- 	{	
- 		if(mst[v]==false && key[v]<min)
- 		{
- 		 	min=key[v],min_index=v;
- 		}
- 		
- 	}	
+	int min = INT_MAX;
+	int min_index = -1;
+
+	for (int v = 0; v < V; v++)
+
+		if (!explore[v] && key[v] < min)
+		{
+			min = key[v];
+			min_index = v;
+		}
+
 	return min_index;
 }
 
-void printmst(int parent[],int n)
+// Function to print MST
+void printMST(int parent[], int graph[V][V])
 {
- 	printf("\nEdge Weight\n");
- 	for(int i=1;i<V;i++)
- 	{
- 	 	printf("%d - %d  %d\n",parent[i]+1,i+1,graph[i][parent[i]]);
- 	}
+	cout << "\nEdge \tWeight\n";
+	for (int i = 0; i < V; i++)
+	{
+		if (parent[i] != -1)
+			cout << parent[i] << " - " << i << "\t" << graph[i][parent[i]] << endl;
+	}
 }
 
-
-void prim()
+// Prim's MST algorithm
+void primMST(int graph[V][V], int r)
 {
- 	int parent[V];
- 	int key[V];
- 	bool mst[V];
- 	for(int i=0;i<V;i++)
- 		key[i]=INT_MAX,mst[i]=false;
- 	
- 	key[0]=0;
- 	parent[0]=-1;
-    
-    for(int count=0;count<V-1;count++)
- 	{
- 		int u=minkey(key,mst);
- 		mst[u]=true;
- 		for(int v=0;v<V;v++)	
- 		if(graph[u][v] && mst[v] == false && graph[u][v]<key[v])
- 			parent[v]=u,key[v]=graph[u][v];
- 	}
-printmst(parent,V);
+	int parent[V];	 // To store MST
+	int key[V];		 // To pick minimum weight edge
+	bool explore[V]; // Track included vertices
+
+	// Initialize all keys as infinite and explore[] as false
+	for (int i = 0; i < V; i++)
+	{
+		key[i] = INT_MAX;
+		explore[i] = false;
+		parent[i] = -1;
+	}
+
+	key[r] = 0; // Start from user�s chosen vertex
+
+	// Build MST
+	for (int count = 0; count < V - 1; count++)
+	{
+		int u = minKey(key, explore);
+		explore[u] = true;
+
+		for (int v = 0; v < V; v++)
+		{
+			if (graph[u][v] != 0 && !explore[v] && graph[u][v] < key[v])
+			{
+				parent[v] = u;
+				key[v] = graph[u][v];
+			}
+		}
+	}
+
+	printMST(parent, graph);
 }
-
-
-
-
 
 int main()
 {
- 	printf("\nEnter number of vertices\n");
- 	scanf("%d",&V);
- 	
- 	for(int i=0;i<V;i++)
- 	{
- 		for(int j=0;j<V;j++)
- 	 	{
- 	 	  	printf("\nEnter weigth of edge between %d and %d or enter '0' if no edge\n",i,j);
- 		  	scanf("%d",&graph[i][j]);
- 		}
- 	}
- 	prim();
- 	return 0;
-}		
+	int graph[V][V] = {
+		{0, 2, 4, 0},
+		{2, 0, 1, 3},
+		{4, 1, 0, 5},
+		{0, 3, 5, 0}};
+	int r;
+	cout << "Enter the starting vertex (0 to " << V - 1 << "): ";
+	cin >> r;
+
+	if (r < 0 || r >= V)
+	{
+		cout << "Invalid source vertex!" << endl;
+		return 1;
+	}
+
+	primMST(graph, r);
+
+	return 0;
+}

@@ -1,100 +1,100 @@
 #include <iostream>
-#include <vector>
-#include <climits>   // INT_MAX
-#include <utility>   // std::pair
-
 using namespace std;
 
-struct Node {
-    int p;  // parent
-    int d;  // distance
-    Node() : p(-1), d(INT_MAX) {}
-};
+#define INF 1000000000
 
-typedef pair<int,int> Edge;     // (v, w)
-typedef vector<Edge> edges_t;   // adjacency list of (v,w)
-typedef vector<edges_t> graph_t;
-
-// Bellman–Ford: returns true if no negative cycle reachable from src
-bool bellmanFord(const graph_t& graph, int src, int dst, vector<int>& path) {
-    int n = (int)graph.size();
-    vector<Node> nodes(n);
-
-    // Initialization
-    nodes[src].d = 0;
-
-    // Relax edges |V| - 1 times
-    for (int it = 0; it < n - 1; ++it) {
-        bool changed = false;
-        for (int u = 0; u < n; ++u) {
-            const edges_t& adj = graph[u];
-            for (size_t k = 0; k < adj.size(); ++k) {
-                int v = adj[k].first;
-                int w = adj[k].second;
-                if (nodes[u].d != INT_MAX && nodes[v].d > nodes[u].d + w) {
-                    nodes[v].d = nodes[u].d + w;
-                    nodes[v].p = u;
-                    changed = true;
-                }
-            }
-        }
-        if (!changed) break; // optional early exit
+// Relax(u, v, w)
+void relax(int u, int v, int w, int d[], int pi[])
+{
+    if (d[v] > d[u] + w)
+    {
+        d[v] = d[u] + w;
+        pi[v] = u;
     }
+}
 
-    // Check for negative cycles
-    for (int u = 0; u < n; ++u) {
-        const edges_t& adj = graph[u];
-        for (size_t k = 0; k < adj.size(); ++k) {
-            int v = adj[k].first;
-            int w = adj[k].second;
-            if (nodes[u].d != INT_MAX && nodes[v].d > nodes[u].d + w) {
-                return false; // negative cycle reachable from src
-            }
+// Initialize-Single-Source(G, s)
+void initialize(int d[], int pi[], int V, int s)
+{
+    for (int i = 0; i < V; i++)
+    {
+        d[i] = INF;
+        pi[i] = -1; // NIL (no predecessor)
+    }
+    d[s] = 0;
+}
+
+// Bellman-Ford(G, w, s)
+bool bellmanFord(int edges[][3], int V, int E, int s, int d[], int pi[])
+{
+    initialize(d, pi, V, s);
+
+    // Relax all edges |V|-1 times
+    for (int i = 1; i <= V - 1; i++)
+    {
+        for (int j = 0; j < E; j++)
+        {
+            int u = edges[j][0];
+            int v = edges[j][1];
+            int w = edges[j][2];
+            relax(u, v, w, d, pi);
         }
     }
 
-    // Unreachable destination
-    if (nodes[dst].d == INT_MAX) {
-        return false;
-    }
+    // Check for negative cycle
+    for (int j = 0; j < E; j++)
+    {
+        int u = edges[j][0];
+        int v = edges[j][1];
+        int w = edges[j][2];
 
-    // Reconstruct path src -> dst
-    int cur = dst;
-    while (cur != -1) {
-        path.insert(path.begin(), cur);
-        cur = nodes[cur].p;
+        if (d[v] > d[u] + w)
+            return false;
     }
 
     return true;
 }
 
-int main() {
-    graph_t graph(5);  // 5 vertices: 0..4
+int main()
+{
+    int V, E, source;
 
-    // Build adjacency lists (u -> (v, w))
-    graph[0].push_back(Edge(1, 6));
-    graph[0].push_back(Edge(3, 7));
+    cout << "Enter number of vertices: ";
+    cin >> V;
 
-    graph[1].push_back(Edge(2, 5));
-    graph[1].push_back(Edge(3, 8));
-    graph[1].push_back(Edge(4, -4));
+    cout << "Enter number of edges: ";
+    cin >> E;
 
-    graph[2].push_back(Edge(1, -2));
+    int edges[500][3];
+    int d[100];
+    int pi[100];
 
-    graph[3].push_back(Edge(2, -3));
-    graph[3].push_back(Edge(4, 9));
+    for (int i = 0; i < E; i++)
+    {
+        cin >> edges[i][0] >> edges[i][1] >> edges[i][2];
+    }
 
-    graph[4].push_back(Edge(0, 2));
-    graph[4].push_back(Edge(2, 7));
+    cout << "\nEnter source vertex: ";
+    cin >> source;
 
-    vector<int> path;
-    if (bellmanFord(graph, 0, 2, path)) {   // shortest path 0 -> 2
-        for (size_t i = 0; i < path.size(); ++i) {
-            cout << path[i] << ' ';
+    // Run Bellman-Ford
+    if (bellmanFord(edges, V, E, source, d, pi))
+    {
+        cout << "\nNo negative-weight cycle detected.\n";
+        cout << "Shortest distances from source " << source << ":\n";
+
+        for (int i = 0; i < V; i++)
+        {
+            cout << "Vertex " << i << " : ";
+            if (d[i] == INF)
+                cout << "INF\n";
+            else
+                cout << d[i] << "\n";
         }
-        cout << '\n';
-    } else {
-        cout << "negative cycle detected or no path\n";
+    }
+    else
+    {
+        cout << "\nNegative-weight cycle detected! Cannot compute shortest paths.\n";
     }
 
     return 0;

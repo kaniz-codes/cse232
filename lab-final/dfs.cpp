@@ -1,48 +1,73 @@
-#include <iostream>
-#include <vector>
+#include <bits/stdc++.h>
 using namespace std;
 
-vector<int> adj[10];
-bool visited[10];
+#define MAX 100
+#define WHITE 0
+#define GRAY  1
+#define BLACK 2
 
-void dfs(int s)
-{
-    visited[s] = true;
-    for (int i = 0; i < adj[s].size(); ++i)
-    {
-        if (visited[adj[s][i]] == false)
-            dfs(adj[s][i]);
-    }
-}
+int color[MAX];
+int d[MAX];
+int f[MAX];
+int pi[MAX];
+int Adj[MAX][MAX];
+int n; // number of vertices
+int Time;
 
-void initialize()
-{
-    for (int i = 0; i < 10; ++i)
-        visited[i] = false;
-}
+void DFS_VISIT(int u) {
+    Time++;
+    d[u] = Time;
+    color[u] = GRAY;
 
-int main()
-{
-    int nodes, edges, x, y, connectedComponents = 0;
-    cin >> nodes;
-    cin >> edges;
-    for (int i = 0; i < edges; ++i)
-    {
-        cin >> x >> y;
-        adj[x].push_back(y);
-        adj[y].push_back(x);
-    }
-
-    initialize();
-
-    for (int i = 1; i <= nodes; ++i)
-    {
-        if (visited[i] == false)
-        {
-            dfs(i);
-            connectedComponents++;
+    for (int v = 0; v < n; v++) {
+        if (Adj[u][v] == 1 && color[v] == WHITE) {
+            pi[v] = u;
+            DFS_VISIT(v);
         }
     }
-    cout << "Number of connected components: " << connectedComponents << endl;
-    return 0;
+
+    color[u] = BLACK;
+    Time++;
+    f[u] = Time;
 }
+
+void DFS() {
+    for (int u = 0; u < n; u++) {
+        color[u] = WHITE;
+        pi[u] = -1;
+    }
+
+    Time = 0;
+
+    for (int u = 0; u < n; u++) {
+        if (color[u] == WHITE)
+            DFS_VISIT(u);
+    }
+
+    cout << "\nVertex : Discovery / Finish time\n";
+    for (int i = 0; i < n; i++) {
+        cout << i << " : " << d[i] << " / " << f[i] << endl;
+    }
+}
+
+int main() {
+    int e;
+    cout << "Enter number of vertices and edges: ";
+    cin >> n >> e;
+
+    // Initialize adjacency matrix
+    for (int i = 0; i < n; i++)
+        for (int j = 0; j < n; j++)
+            Adj[i][j] = 0;
+
+    cout << "Enter edges (u v):\n";
+    for (int i = 0; i < e; i++) {
+        int u, v;
+        cin >> u >> v;
+        Adj[u][v] = 1;
+       // Adj[v][u] = 1; // for undirected
+    }
+
+    DFS();
+}
+
